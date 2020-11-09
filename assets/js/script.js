@@ -13,14 +13,14 @@ var qNumber = 0;
 // start time 
 var timeLeft = 60;
 var timeCountdown;
-
+13423
 // array of questions
 var questions = [ 
-    {q: 'What color is the sky?', choices: ['yellow', 'blue', 'green', 'orange'], a: 0, },
-    {q: 'What color idnenc snd?', choices: ['djdd', 'blue', 'green', 'orange'], a: 1, },
-    {q: 'What color is dsnkcl sky?', choices: ['yellow', 'bdssjnlue', 'green', 'orange'], a: 2, },
-    {q: 'What sdc jnc is the sky?', choices: ['yellow', 'blue', 'gredsmen', 'orange'], a: 3, },
-    {q: 'What color isdjkncdws the sky?', choices: ['yellow', 'blue', 'green', 'orangdsse'], a: 0, },
+    {q: 'Commonly used data types DO not include:', choices: ['strings', 'booleans', 'alerts', 'numbers'], a: 2, },
+    {q: 'The condition in an if / else statement is enclosed with ____.', choices: ['quotes', 'curly brackets', 'parenthesis', 'square brackets'], a: 1, },
+    {q: 'Arrays in JavaScript can be used to store ____.?', choices: ['numbers and strings', 'other arrays', 'booleans', 'all of the above'], a: 3, },
+    {q: 'String values must be enclosed within ___ when being assigned to variables.', choices: ['commas', 'curly brackets', 'quotes', 'parenthesis'], a: 2, },
+    {q: 'A very usefool tool used during development and debugging for printing content to the debugger is:', choices: ['JavaScript', 'terminal/bash', 'for loops', 'console log'], a: 3, },
 ];
 
 var startQuiz = function() {
@@ -51,7 +51,7 @@ var questionChange = function() {
     // populate answer choices
     for (var i = 0; i < questions[qNumber].choices.length; i++) {
         if (qNumber === 0) {
-            answersEl.innerHTML += "<li><button class='choices' id='choice"+i+"'>" + questions[qNumber].choices[i] + "</button></li>";
+            answersEl.innerHTML += "<li><button class='choices' id='choice"+i+"'>" + (i+1) + ". " + questions[qNumber].choices[i] + "</button></li>";
             answersEl.querySelector("#choice"+i).setAttribute("data-choice-id", i);
         } else {
             var choiceEl = document.getElementById("choice"+i);
@@ -85,20 +85,19 @@ var endGameHandler = function() {
     // edit elements
     questionEl.textContent = "All done!";
     introEl.querySelector("p").textContent = "Your final score is "+score;
+    introEl.querySelector("p").className = "finalScore";
     // clear elements
     answersEl.style.display = "none";
     answerResponseEl.style.display = "none";
     // add elements
     introEl.style.display = "block";
-    scoreFormEl.style.display = "block";
-
-
-
+    scoreFormEl.style.display = "flex";
 };
 
 var restartOrClear = function(event) {
     if(event.target.id == "clear") {
         localStorage.removeItem('score');
+        localStorage.removeItem('initials');
         document.getElementById("scoreList").querySelector("ul").innerHTML = "";
 
     }
@@ -110,22 +109,29 @@ var restartOrClear = function(event) {
     }
 } 
 
-var scoreHandler = function(event) {
+var storeScore = function(event) {
     // stop page from refreshing
     event.preventDefault();
-
+    
     // store initials
     var initial = scoreFormEl.querySelector("input").value;
     localStorage.setItem('initials', initial);
+
+    scoreHandler();
+};
+
+var scoreHandler = function() {
+
 
 
     // clear any elements
     answersEl.style.display = "none";
     answerResponseEl.style.display = "none";
+    startBtnEl.style.display = "none";
 
     // edit/display elements 
     introEl.style.display = "block";
-    scoreFormEl.style.display = "block";
+    scoreFormEl.style.display = "flex";
     questionEl.textContent = "High Scores";
     introEl.innerHTML = "<div id='scoreList'><ul></ul></div>";
     scoreList = document.getElementById("scoreList");
@@ -135,16 +141,19 @@ var scoreHandler = function(event) {
     var initials = localStorage.getItem('initials');
     var score = localStorage.getItem('score');
 
-    // display them & add buttons
-    scoreListChild.innerHTML += "<li>1."+initials+" - "+score+"</li>";
-    scoreList.innerHTML += "<button class='scoreBtns' id='back'>Go Back</button><button class='scoreBtns' id='clear'>Clear Highscores</button>";
-
+    if(initials == null || score == null) {
+        scoreList.innerHTML += "<button class='choices' id='back'>Go Back</button><button class='choices' id='clear'>Clear Highscores</button>";
+    } else {
+        // display them & add buttons
+        scoreListChild.innerHTML += "<li>1."+initials+" - "+score+"</li>";
+        scoreList.innerHTML += "<button class='choices' id='back'>Go Back</button><button class='choices' id='clear'>Clear Highscores</button>";
+    }
     // handle buttons
     scoreList.addEventListener("click", restartOrClear);
 };
 
 startBtnEl.addEventListener("click", startQuiz);
 answersEl.addEventListener("click", answerCheck);
-scoreFormEl.addEventListener("submit", scoreHandler);
+scoreFormEl.addEventListener("submit", storeScore);
 viewScore.addEventListener("click", scoreHandler);
 

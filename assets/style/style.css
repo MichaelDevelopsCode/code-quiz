@@ -1,0 +1,73 @@
+
+body {
+    margin: 50px;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+header button {
+    border: none;
+    background: none;
+    font-size: 18px;
+    color: violet;
+}
+
+main {
+    margin: 100px;
+    text-align: center;
+}
+
+li {
+    list-style: none;
+}
+
+h2 {
+    color: grey;
+    text-align: left;
+    font-style: italic;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+p {
+    font-size: 20px;
+}
+
+.choices {
+    width: 200px;
+    height: 50px;
+    background: darkslateblue;
+    border-radius: 7px;
+    color: white;
+    font-size: 18px;
+    margin: 5px;
+    border: none;
+}
+
+.choices:hover {
+    background: violet;
+}
+
+.form-group {
+    font-size: 20px;
+}
+.form-group input {
+    font-size: 20px;
+    height: 30px;
+}
+
+.small {
+    width: 110px;
+    height: 30px;
+}
+
+#scoreList ul li {
+    list-style: none;
+    background: #8080802e;
+    font-size: 25px;
+}
